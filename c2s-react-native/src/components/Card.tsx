@@ -63,7 +63,7 @@ const AvatarWrapper = styled.View`
 const StyledAvatar = styled(Image)`
   width: 80px;
   height: 80px;
-  border-radius: 50%;
+  border-radius: 100px;
 `;
 
 const TextWrapper = styled.View`

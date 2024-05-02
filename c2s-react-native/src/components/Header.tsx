@@ -18,7 +18,7 @@ const HeaderText = styled.Text`
 const Header: React.FC = () => {
   return (
     <HeaderContainer>
-      <HeaderText>InnovateTech</HeaderText>
+      <HeaderText>People</HeaderText>
     </HeaderContainer>
   );
 };
