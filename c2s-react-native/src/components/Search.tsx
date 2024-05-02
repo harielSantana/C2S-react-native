@@ -11,8 +11,8 @@ const SearchInputContainer = styled.View`
 `;
 
 const TextInput = styled.TextInput`
-  padding: 10px;
-  border: 2px solid #ccc;
+  padding: 12px;
+  border: 2px solid #52525225;
 `;
 
 const SearchInput: React.FC<SearchInputProps> = ({ onSearch, placeholder = 'Search' }) => {

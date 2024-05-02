@@ -4,7 +4,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styled from 'styled-components/native';
 
 const FilterButtonContainer = styled.TouchableOpacity<{ type: string }>`
-  background-color: ${({ type }) => (type === 'default' ? '#ddd' : type === 'male' ? '#5cabff' : '#ff71d2')};
+  background-color: ${({ type }) => (type === 'default' ? '#ccc' : type === 'male' ? '#5cabff' : '#ff71d2')};
   border-radius: 5px;
   flex-direction: row;
   align-items: center;
@@ -23,7 +23,6 @@ interface FilterButtonProps {
 }
 
 const FilterButton: React.FC<FilterButtonProps> = ({ onPress, type }) => {
-  console.log('type', type);
 
   const getIconName = () => {
     switch (type) {
@@ -39,7 +38,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({ onPress, type }) => {
   };
 
   const getIconColor = () => {
-    return type === 'default' ? '#fff' : '#000'; // Define a cor do ícone com base no tipo de filtro
+    return type !== 'default' ? '#fff' : '#909090'; // Define a cor do ícone com base no tipo de filtro
   };
 
   return (
@@ -47,7 +46,7 @@ const FilterButton: React.FC<FilterButtonProps> = ({ onPress, type }) => {
       {type !== 'default' ? <Ionicons name={getIconName()} size={20} color={getIconColor()} /> :
       <MaterialIcons name='filter-alt' size={20} color={getIconColor()}/>}
       {/* Renderiza o texto apenas se o tipo for "default" */}
-      {/* {type === 'default' && <ButtonText>Filter</ButtonText>} */}
+       <ButtonText>{type === 'default' ? 'Filter' : type}</ButtonText>
     </FilterButtonContainer>
   );
 };

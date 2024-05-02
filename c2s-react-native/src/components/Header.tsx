@@ -5,6 +5,8 @@ const HeaderContainer = styled.View`
   padding: 10px;
   align-items: center;
   justify-content: center;
+
+  margin-bottom: 20px;
 `;
 
 const HeaderText = styled.Text`
