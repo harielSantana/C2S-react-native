@@ -1,4 +1,3 @@
-
 import { useCallback, useEffect, useState } from 'react';
 import { fetchUsers } from './_request';
 
@@ -22,23 +21,42 @@ export interface User {
 }
 
 const useUsers = () => {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [filterType, setFilterType] = useState<'male' | 'female' | 'default'>('default');
+  const [prevFilterType, setPrevFilterType] = useState(filterType);
+
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const loadUsers = useCallback(async () => {
-    setLoading(true);
-    await fetchUsers(page, filterType === 'default' ? null : filterType, setUsers);
-    setLoading(false);
-  }, [page, filterType, setUsers]);
+    if (filterType !== prevFilterType) {
+      setPage(1);
+      setPrevFilterType(filterType);
+    }
 
-  useEffect(() => {
-    loadUsers();
-  }, [loadUsers]);
+    setLoading(true);
+    try {
+      const newUsers = await fetchUsers(page, filterType === 'default' ? null : filterType, searchTerm); 
+      setUsers((prevUsers) => {
+        if (page === 1) {
+          return newUsers; 
+        } else {
+          return [...prevUsers, ...newUsers]; 
+        }
+      });
+    } catch (error) {
+      // Trate o erro aqui, se necessário
+    }
+    setLoading(false);
+  }, [filterType, searchTerm]); // Inclua searchTerm na lista de dependências
+
+  const handleEndReached = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
 
   const handleSearch = (text: string) => {
-    console.log(text);
+    setSearchTerm(text); // Atualiza o termo de busca quando o usuário digita algo
   };
 
   const handleFilterPress = () => {
@@ -56,17 +74,17 @@ const useUsers = () => {
     });
   };
 
-  const handleEndReached = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
+  useEffect(() => {
+    loadUsers();
+  }, [loadUsers]);
 
   return {
     users,
     loading,
     filterType,
-    fetchUsers: loadUsers,
     handleSearch,
     handleFilterPress,
+    fetchUsers: loadUsers,
     handleEndReached,
   };
 };
